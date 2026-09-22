@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Music — Michelle Zbizika</title>
+<meta name="description" content="Electronic music by Michelle Zbizika.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23022169'/%3E%3Ctext x='16' y='21.5' font-family='system-ui,sans-serif' font-size='15' font-weight='700' fill='white' text-anchor='middle'%3EMZ%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@300;400;600&display=swap" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@300;400;600&display=swap"></noscript>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav class="top">
+  <div class="top-inner">
+    <a href="index.html">Home</a>
+    <a href="index.html#updates">Updates</a>
+    <a href="index.html#projects">Projects</a>
+    <a href="music.html">Music</a>
+  </div>
+</nav>
+
+<main class="page">
+
+  <div class="profile">
+    <div class="profile-intro">
+      <h1 class="name">Music</h1>
+      <p class="center">Electronic music I make.</p>
+      <p class="links center" id="music-links"></p>
+    </div>
+  </div>
+
+  <section>
+    <h2>Tracks</h2>
+    <div class="tracks" id="tracks"></div>
+
+    <!--
+      ADD MUSIC: one link per line, between the two script tags below. Tracks show in the order listed.
+        Your SoundCloud profile (adds a "SoundCloud" link at the top):  https://soundcloud.com/your-name
+        A SoundCloud track or playlist (adds a player):                 https://soundcloud.com/your-name/track-name
+        An audio file uploaded next to this page:                       Track title | track-file.mp3
+      Copy SoundCloud links from the browser address bar. Pasting SoundCloud's Embed code also works.
+    -->
+    <script type="text/plain" id="track-list">
+
+    </script>
+  </section>
+
+</main>
+
+<script>
+  (function () {
+    var list = document.getElementById('track-list');
+    var box = document.getElementById('tracks');
+    var links = document.getElementById('music-links');
+    if (!list || !box) return;
+
+    var color = '#0072ce';
+    var profile = '';
+    var shown = 0;
+
+    function addLink(href, text) {
+      var p = document.createElement('p');
+      var a = document.createElement('a');
+      a.href = href;
+      a.textContent = text;
+      p.appendChild(a);
+      box.appendChild(p);
+    }
+
+    list.textContent.split('\n').forEach(function (raw) {
+      var line = raw.trim();
+      if (!line || line.charAt(0) === '#') return;
+
+      var title = '';
+      var url = line;
+      var embed = line.match(/src="([^"]+)"/);
+      if (embed) {
+        url = embed[1].replace(/&amp;/g, '&');
+      } else if (line.indexOf('|') > -1) {
+        title = line.slice(0, line.lastIndexOf('|')).trim();
+        url = line.slice(line.lastIndexOf('|') + 1).trim();
+      }
+      url = url.replace(/^(https?:\/\/)?(www\.|m\.)?soundcloud\.com/i, 'https://soundcloud.com');
+
+      // Profile link: soundcloud.com/name
+      if (/^https:\/\/soundcloud\.com\/[^\/?#]+\/?(\?.*)?$/i.test(url)) {
+        profile = url.split('?')[0];
+        return;
+      }
+
+      // Short links from the SoundCloud app can't be embedded, so show them as a link
+      if (/on\.soundcloud\.com/i.test(url)) {
+        addLink(url, title || 'Listen on SoundCloud');
+        shown++;
+        return;
+      }
+
+      if (/soundcloud\.com/i.test(url)) {
+        var isPlayer = /w\.soundcloud\.com\/player/i.test(url);
+        var src = isPlayer
+          ? url.replace(/([?&])color=[^&]*/i, '$1color=' + encodeURIComponent(color))
+          : 'https://w.soundcloud.com/player/?url=' + encodeURIComponent(url.split('?')[0]) +
+            '&color=' + encodeURIComponent(color) +
+            '&auto_play=false&hide_related=true&show_comments=false&show_reposts=false&show_teaser=false&visual=false';
+        var frame = document.createElement('iframe');
+        frame.src = src;
+        frame.title = title || 'SoundCloud player';
+        frame.loading = 'lazy';
+        frame.allow = 'autoplay';
+        frame.height = /\/sets\/|\/playlists\//i.test(url) ? '300' : '166';
+        box.appendChild(frame);
+      } else if (/\.(mp3|m4a|aac|wav|ogg|oga|opus|flac)(\?.*)?$/i.test(url)) {
+        var fig = document.createElement('figure');
+        var cap = document.createElement('figcaption');
+        cap.textContent = title || decodeURIComponent(url.split('/').pop())
+          .replace(/\.[a-z0-9]+$/i, '').replace(/[-_]+/g, ' ');
+        var audio = document.createElement('audio');
+        audio.controls = true;
+        audio.preload = 'metadata';
+        audio.src = url;
+        fig.appendChild(cap);
+        fig.appendChild(audio);
+        box.appendChild(fig);
+      } else {
+        addLink(url, title || url);
+      }
+      shown++;
+    });
+
+    if (profile && links) {
+      var a = document.createElement('a');
+      a.href = profile;
+      a.textContent = 'SoundCloud';
+      links.appendChild(a);
+    }
+
+    if (!shown) {
+      var p = document.createElement('p');
+      p.className = 'empty';
+      p.textContent = 'First tracks coming soon.';
+      box.appendChild(p);
+    }
+  })();
+</script>
+</body>
+</html>
