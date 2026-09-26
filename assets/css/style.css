@@ -190,6 +190,15 @@ b { font-weight: 600; }
 
 .center { text-align: center; }
 
+/* Friends */
+
+.friends {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3em 1.5em;
+    margin-top: 0.6em;
+}
+
 /* Photos */
 
 .photos {
