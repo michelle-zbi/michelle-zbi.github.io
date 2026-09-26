@@ -23,7 +23,7 @@ body {
     line-height: 1.45;
 }
 
-p { margin: 0.2em; }
+p { margin: 0.2em 0; }
 
 ul {
     list-style: none;
@@ -44,7 +44,7 @@ a:focus-visible {
 }
 
 h1 {
-    font-weight: 500;
+    font-weight: 400;
     color: var(--blue1);
 }
 
@@ -123,6 +123,16 @@ b { font-weight: 600; }
 
 .section li { margin-bottom: 0.3em; }
 
+.updates li {
+    display: grid;
+    grid-template-columns: 8.5em 1fr;
+    column-gap: 0.5em;
+}
+
+.updates b { white-space: nowrap; }
+
+.project-meta { margin-bottom: 0.8em; }
+
 .divider {
     width: 100%;
     border-bottom: 1px solid var(--rule);
@@ -148,6 +158,30 @@ b { font-weight: 600; }
     display: block;
     width: 100%;
 }
+
+.more { margin-top: 0.4em; }
+
+.more summary {
+    display: inline-block;
+    color: var(--blue3);
+    cursor: pointer;
+    list-style: none;
+}
+
+.more summary::-webkit-details-marker { display: none; }
+
+.more summary::after { content: " \25BE"; }
+
+.more[open] summary::after { content: " \25B4"; }
+
+.more summary:hover { text-decoration: underline; }
+
+.more summary:focus-visible {
+    outline: 2px solid var(--blue3);
+    outline-offset: 2px;
+}
+
+.more p { margin-top: 0.4em; }
 
 .research-proj-title {
     color: var(--blue1);
@@ -194,6 +228,8 @@ b { font-weight: 600; }
         margin: 0 auto 24px;
     }
     .section { padding: 0 16px 16px; }
+    .updates li { display: block; margin-bottom: 0.7em; }
+    .updates b { display: block; }
     .research-thumb {
         float: none;
         width: 100%;

@@ -28,7 +28,6 @@
             </div>
             <div id="profile-intro">
                 <div id="profile-name">Music</div>
-                <p class="center">Electronic music I make.</p>
                 <div class="center" id="music-links"></div>
             </div>
             <div style="clear: both;"></div>
@@ -46,6 +45,7 @@
               Copy SoundCloud links from the browser address bar. Pasting SoundCloud's Embed code also works.
             -->
             <script type="text/plain" id="track-list">
+https://soundcloud.com/mzbi
 
             </script>
         </div>
@@ -137,6 +137,21 @@
                 a.href = profile;
                 a.textContent = 'SoundCloud';
                 links.appendChild(a);
+            }
+
+            // No individual tracks listed yet: show the profile's player
+            if (!shown && profile) {
+                var pf = document.createElement('iframe');
+                pf.src = 'https://w.soundcloud.com/player/?url=' + encodeURIComponent(profile) +
+                    '&color=' + encodeURIComponent(color) +
+                    '&auto_play=false&hide_related=true&show_comments=false&show_reposts=false&show_teaser=false&visual=false';
+                pf.title = 'SoundCloud tracks';
+                pf.loading = 'lazy';
+                pf.allow = 'autoplay';
+                pf.height = '450';
+                box.appendChild(pf);
+                addLink(profile, 'More on SoundCloud');
+                shown++;
             }
 
             if (!shown) {
