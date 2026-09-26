@@ -159,6 +159,30 @@ b { font-weight: 600; }
     width: 100%;
 }
 
+.more { margin-top: 0.4em; }
+
+.more summary {
+    display: inline-block;
+    color: var(--blue3);
+    cursor: pointer;
+    list-style: none;
+}
+
+.more summary::-webkit-details-marker { display: none; }
+
+.more summary::after { content: " \25BE"; }
+
+.more[open] summary::after { content: " \25B4"; }
+
+.more summary:hover { text-decoration: underline; }
+
+.more summary:focus-visible {
+    outline: 2px solid var(--blue3);
+    outline-offset: 2px;
+}
+
+.more p { margin-top: 0.4em; }
+
 .research-proj-title {
     color: var(--blue1);
     font-weight: 400;
