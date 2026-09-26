@@ -190,6 +190,24 @@ b { font-weight: 600; }
 
 .center { text-align: center; }
 
+/* Photos */
+
+.photos {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+}
+
+.photos figure { margin: 0; }
+
+.photos img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 3 / 2;
+    object-fit: cover;
+    margin-bottom: 0.6em;
+}
+
 /* Music page */
 
 .tracks iframe {
@@ -230,6 +248,7 @@ b { font-weight: 600; }
     .section { padding: 0 16px 16px; }
     .updates li { display: block; margin-bottom: 0.7em; }
     .updates b { display: block; }
+    .photos { grid-template-columns: 1fr; gap: 24px; }
     .research-thumb {
         float: none;
         width: 100%;
